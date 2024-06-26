@@ -1,0 +1,55 @@
+info:
+  fullName: Example 01 - Getting Started # Project full name
+  author: Matto # Project author
+  icon: null # Path to icon, relative to <project path>/data, null if default icon
+  key: # Key of the project
+    note: F# # Can be C, D, E, F, G, A, B, or its sharp variants, not flat however
+    major: false # true is major, false is minor
+  bpm: 160.0 # Beats per minute
+
+audio: # Key/value pairs of ID/project data-relative paths, audio files can be wav, mp3, flac or ogg
+  lead: Lead.wav
+  chords: Chords.wav
+  bass: Bass.wav
+  drums: Drums.wav
+
+placement: # Placement of the above clips in the project itself
+  - trackName: Lead # Name of the track
+    volume: 1.0 # Volume of the track, 1.0 is normal, 0.0 is muted, max is 5.0
+    items: # Audio snippets used in the track itself
+      - using: lead # ID of the snippet (we specified this ID in the audio section!)
+        position: 0.0 # Position of the snippet (in beats)
+        length: 16.0 # Length of the snippet (in beats)
+      - using: lead
+        position: 16.0
+        length: 16.0
+
+  - trackName: Chords
+    volume: 1.0
+    items:
+      - using: chords
+        position: 0.0
+        length: 16.0
+      - using: chords
+        position: 16.0
+        length: 16.0
+
+  - trackName: Bass
+    volume: 1.0
+    items:
+      - using: bass
+        position: 0.0
+        length: 16.0
+      - using: bass
+        position: 16.0
+        length: 16.0
+
+  - trackName: Drums
+    volume: 1.0
+    items:
+      - using: drums
+        position: 0.0
+        length: 16.0
+      - using: drums
+        position: 16.0
+        length: 16.0

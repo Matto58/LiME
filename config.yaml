@@ -1,0 +1,9 @@
+config:
+  global: # Global properties
+
+  projSelection: # Project selection menu
+    showAllDetails: false # Show all info of a project in the preview (default: false)
+    noCustomIcons: false # Hide icons specified by the project data (default: false)
+
+  editor: # The editor itself
+    maxDisplayedTracks: 6 # Maximum amount of tracks to display on one screen (you can scroll of course)
