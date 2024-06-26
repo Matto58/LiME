@@ -20,6 +20,7 @@ class LiMEEditorWin(QMainWindow):
 		self.projNameBar = QLineEdit(self.project.fullName, self)
 		self.projNameBar.resize(256, 28)
 		self.projNameBar.move(4, 4)
+		self.projNameBar.editingFinished.connect(self.updateName)
 
 		self.saveBtn = QPushButton("Save", self)
 		self.saveBtn.resize(96, 28)
@@ -27,6 +28,9 @@ class LiMEEditorWin(QMainWindow):
 		self.saveBtn.clicked.connect(lambda _: self.project.save())
 
 		self.initSuccess = True
+
+	def updateName(self):
+		self.project.fullName = self.projNameBar.text()
 	
 	def create(projectLocation: str | None = None, projectAuthor: str | None = None):
 		editor = LiMEEditorWin(projectLocation, projectAuthor)
