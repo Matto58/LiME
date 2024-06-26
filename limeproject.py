@@ -112,4 +112,30 @@ class LiMEProject:
 		key = LiMEProjectKey.fromStr(i["key"]["note"])
 		return LiMEProject(path, i["fullName"], i["author"], i["icon"], key, i["key"]["major"], i["bpm"], audio, tracks)
 	
-	def save(self): ...
+	def save(self):
+		dirpath = LiMEProject.formProjDir(self.path)
+		path = dirpath + "limeproj.yaml"
+		if not isdir(dirpath):
+			mkdir(dirpath)
+			mkdir(dirpath + "data")
+		handle = io.open(path, "w" if isfile(path) else "x")
+		yaml.dump({
+			"info": {
+				"fullName": self.fullName,
+				"author": self.author,
+				"icon": self.iconPath,
+				"key": {"note": str(self.key), "major": self.major},
+				"bpm": self.bpm
+			},
+			"audio": self.audio,
+			"placement": [{
+				"trackName": track.name,
+				"volume": track.volume,
+				"items": [{
+					"using": item.using,
+					"position": item.position,
+					"length": item.length
+				} for item in track.items]
+			} for track in self.tracks]
+		}, handle)
+		handle.close()
