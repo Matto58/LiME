@@ -6,6 +6,8 @@ from limeinfo import LiMEInfo
 from limeeditor import LiMEEditorWin
 import yaml, io, os
 
+from limeproject import LiMEProject
+
 app = QApplication(argv)
 
 try:
@@ -40,6 +42,7 @@ class LiMEInitWin(QMainWindow):
 		layout.addWidget(newProjBtn)
 
 		openProjBtn = QPushButton("Open project")
+		openProjBtn.clicked.connect(self.openProj)
 		layout.addWidget(openProjBtn)
 
 		centralWidget = QWidget()
@@ -49,6 +52,27 @@ class LiMEInitWin(QMainWindow):
 	def newProj(self):
 		self.projProps = LiMEInitProjPropsWin(self)
 		self.projProps.show()
+	
+	def openProj(self):
+		dirSelection = QFileDialog(self)
+		dirSelection.setFileMode(QFileDialog.FileMode.Directory)
+		if dirSelection.exec() == 0: return
+
+		directory = dirSelection.selectedFiles()[0]
+		projName = directory.split("/")[-1]
+
+		if LiMEProject.formProjDir(projName) != directory + "/":
+			msg = QMessageBox()
+			msg.setWindowTitle(LiMEInfo.createTitle("Error"))
+			msg.setText(f"Project isn't in the projects folder.")
+			msg.exec()
+			return
+
+		self.editor = LiMEEditorWin.create(projName)
+		if not self.editor: return
+		self.editor.show()
+		self.editor.setFocus()
+		self.hide()
 
 class LiMEInitProjPropsWin(QMainWindow):
 	def __init__(self, parent: QWidget):
